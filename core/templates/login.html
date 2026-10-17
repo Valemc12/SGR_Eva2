@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SISTEMA MUNICIPAL / Acceso</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-box { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        .login-box h2 { margin-top: 0; color: #333; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; color: #666; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .btn-ingresar { background-color: #B30000; color: white; border: none; padding: 12px; width: 100%; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        .btn-ingresar:hover { background-color: #8B0000; }
+        .links { margin-top: 15px; text-align: center; }
+        .links a { color: #B30000; text-decoration: none; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <h2>Gestión de Atención Ciudadana</h2>
+        <h3>Iniciar sesión</h3>
+        <p style="color: #666; font-size: 14px;">Accede con tu cuenta institucional.</p>
+        
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Usuario o correo</label>
+                <input type="email" name="correo" placeholder="usuario@example.test" required>
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" name="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-ingresar">Ingresar</button>
+        </form>
+        
+        <div class="links">
+            <a href="{% url 'recuperar_password' %}">¿Olvidaste tu contraseña?</a>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error de Acceso',
+                    text: '{{ message }}',
+                    confirmButtonColor: '#B30000'
+                });
+            </script>
+        {% endfor %}
+    {% endif %}
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SISTEMA MUNICIPAL / Validar Código</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-box { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        .login-box h2 { margin-top: 0; color: #333; font-size: 1.2em; }
+        .login-box h3 { color: #333; margin-bottom: 5px; }
+        .step { color: #B30000; font-weight: bold; font-size: 14px; margin-bottom: 15px; display: block;}
+        
+        /* Estilos para las casillas de los 6 números */
+        .code-inputs { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .code-inputs input { width: 45px; height: 50px; text-align: center; font-size: 24px; border: 1px solid #ccc; border-radius: 4px; }
+        
+        .btn-enviar { background-color: #B30000; color: white; border: none; padding: 12px; width: 100%; border-radius: 4px; cursor: pointer; font-size: 16px; margin-bottom: 15px; }
+        .btn-enviar:hover { background-color: #8B0000; }
+        .links { text-align: left; margin-top: 20px; }
+        .links a { color: #B30000; text-decoration: none; font-size: 14px; }
+        p { color: #666; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <h2>Gestión de Atención Ciudadana</h2>
+        <h3>Validar código</h3>
+        <span class="step">Paso 2 de 3 · Verificación</span>
+        <p>Código enviado a u***@example.test</p>
+        
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="code-inputs">
+                <input type="text" maxlength="1" required>
+                <input type="text" maxlength="1" required>
+                <input type="text" maxlength="1" required>
+                <input type="text" maxlength="1" required>
+                <input type="text" maxlength="1" required>
+                <input type="text" maxlength="1" required>
+            </div>
+            
+            <p style="font-size: 12px; margin-bottom: 20px;">Vigencia de referencia: 10 minutos.</p>
+            
+            <button type="submit" class="btn-enviar">Verificar código</button>
+        </form>
+        
+        <p style="font-size: 14px; color: #333;">Reenviar código en 00:45</p>
+        
+        <div class="links">
+            <a href="{% url 'login' %}">Volver al inicio de sesión</a>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('.code-inputs input');
+        
+        inputs.forEach((input, index) => {
+            // Saltar al siguiente cuadro al escribir un número
+            input.addEventListener('input', () => {
+                if (input.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+            
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && input.value.length === 0 && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
